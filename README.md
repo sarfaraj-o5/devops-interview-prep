@@ -30,4 +30,8 @@ provider version mismatch
 
 # conditional
 count = var.env == "prod" ? 3 : 1
-  
+
+terraform import aws_instance.web i-1234
+
+terraform taint aws_instance.web
+
