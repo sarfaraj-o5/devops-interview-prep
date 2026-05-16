@@ -1,0 +1,242 @@
+// pipeline {
+//     agent any
+//     environment {
+//         DOCKER_REPO = '123456789.dkr.ecr.us-east-1.amazonaws.com/myapp'
+//     }
+
+//     stages {
+//         stage('Checkout'){
+//             steps {git 'https://github.com/org/app.git'}
+//         }
+
+//     stage('Build'){
+//             steps {sh 'mvn clean package -DskipTests'}
+//         }
+
+//     stage('UnitTest'){
+//             steps {sh 'mvn test'}
+//         }    
+
+//     stage('Docker Build & Push'){
+//             steps {
+//                 sh '''
+//                     docker build -t $DOCKER_REPO:${BUILD_NUMBER} .
+//                     docker push $DOCKER_REPO:${BUILD_NUMBER}
+//                 '''
+//             }
+//         }
+
+//         stage('Deploy to EKS'){
+//             steps {
+//                 sh '''
+//                     aws eks update-kubeconfig --name mycluster
+//                     kubectl set image deployment/myapp myapp=$DOCKER_REP:${BUILD_NUMBER}
+//                 '''
+//             }
+//         }
+//     }
+//     withCredentials([string(credentialsId:'AWS_KEY', varaibale: 'AWS_KEY')]){
+//         sh 'aws configure set aws_access_key_id $AWS_KEY'
+//     }
+
+//     withSonarQubeEnv('sonar-server'){
+//         sh 'mvn sonar:sonar'
+//     }
+//     stage('Parallel Build & Test'){
+//         parallel {
+//             stage('Unit Tests'){
+//                 steps {sh 'pytest test/unit'}
+//             }
+//             stage('Integration Test'){
+//                 steps {sh 'pytest tests/integration'}
+//             }
+//             stage('Lint'){
+//                 steps {sh 'eslint'}
+//             }
+//         }
+//     }
+
+    
+//     post {
+//         success {echo "Deployment Successful"}
+//         failure {echo "Pipeline Failed"}
+//     }
+    // Notifications & monitoring 
+       post {
+//         success {slackSend channel: '#deployments', message: Build #${env.BUILD_NUMBER} Successful"}
+//         failure {slackSend channel: '#alerts', message: Build #${env.BUILD_NUMBER} Failed"}
+//     }
+
+// }
+
+---
+pipeline {
+    agent any 
+    stages {
+        stage('Build'){
+            steps {sh 'mvn clean package'}
+        }
+        stage('Test') {
+            parallel {
+                stage('Unit Tests'){sh 'mvn test'}
+                stage('Integration Tests'){sh './run_integration_tests.sh'}
+            }
+        }
+        stage('Deploy to Dev'){
+            steps { sh 'helm upgrade --install app ./charts -f values-dev.yaml'}
+        }
+        stage('Approval for Prod'){
+            steps {
+                Input message: 'Deploy to Production?', ok: 'Yes, deploy'
+            }
+        }
+        stage('Deploy to Prod'){
+            steps {sh 'helm upgrade --install app ./charts -f values-prod.yaml'}
+        }
+        stage('Infra Provision'){
+            steps {
+                sh 'terraform init && terraform apply -auto-approve'
+            }
+        }
+        stage('Deploy to Green'){
+            steps{
+                sh '''
+                helm upgrade --install app-${INACTIVE_COLOR} charts/app \
+                -- set image.tag=${BUILD_NUMBER}
+                '''
+            }
+        }
+        stage('Smoke Test Green'){
+            steps {sh './health_check.sh'}
+        }
+        stage('Switch Traffic'){
+            steps {
+                sh '''
+                kubectl patch svc app-svc \
+                -p '{"spec":{"selector":{"color":"${INACTVE_COLOR"}}}}'
+                '''
+            }
+        }
+
+    }
+}
+
+---
+
+# CANARY DEPLOYMENT 
+pipeline {
+    agent any
+    stages {
+        stage('Deploy Canary'){
+            steps {
+                sh '''
+                helm upgrade --install app charts/app \
+                --set replicaCount=2 --set trafficWeight=10
+                '''
+            }
+        }
+        stage('Monitor Canary'){
+            steps {sh './monitor_canary.sh'}
+        }
+        stage('Rolllout Full'){
+            steps {
+                sh '''
+                helm upgrade --install app charts/app \
+                --set trafficWeight=100
+                '''
+            }
+        }
+
+    }
+}
+
+---
+### ROLLBACK SECNARIO
+pipeline {
+    agent any
+    stages {
+        stage('Deploy New Version'){
+            steps {
+                sh 'helm upgrade --install app charts/app --set image.tag=${BUILD_NUMBER}'
+            }
+        }
+        stage('Health Check'){
+            steps {
+                script {
+                    def result = sh(script:'./check_health.sh', return Status: true)
+                    if (result != 0) {
+                        echo "Deployment failed, rolling back..."
+                        sh 'helm rollback app 1'
+                    }
+                }
+            }
+        }
+    }
+}
+
+---
+
+## CICD with TERRAFORM 
+pipeline {
+    agent any 
+    stages {
+        stage('Infra Provision'){
+            steps{
+                sh '''
+                cd terraform
+                terraform init
+                terraform plan -out=tfplan
+                terraform apply -auto-approve tfplan
+                '''
+            }
+        }
+        stage('Deploy Application'){
+            steps {
+                sh 'helm upgrade --install app charts/app'
+            }
+        }
+    }
+}
+
+---
+## WITH SECURITY SCANS
+
+pipeline {
+    agent any
+    stages {
+        stage('Build'){steps { sh 'mvn package'}}
+        stage('Code Quality'){ steps {sh 'mvn sonar:sonar'}}
+        stage('Image Scan'){
+            steps { sh 'trivy image myapp:${BUILD_NUMBER}'}
+        }
+    }
+}
+---
+
+### multi-service deploy
+pipeline {
+    agent any 
+    stages {
+        stage('Determine Changed Services'){
+            steps {
+                script{
+                    changed = sh (script: 'git diff --name-only HEAD-1 | cut -d/ -f1 | sort -u', returnStdout: true.trim().split('\n'))
+                }
+            }
+        }
+        stage('Deploy Changed Services'){
+            steps {
+                script {
+                    for (service in changed) {
+                        echo "Deploying ${service}"
+                        sh 'helm upgrade --install ${service} charts/${service} --set image.tag=${BUILD_NUMBER}'
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+---
+

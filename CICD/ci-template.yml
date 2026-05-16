@@ -1,0 +1,31 @@
+## reusable workflows(template based)
+name: Common CI Template 
+on:
+  workflow_call:
+    inputs:
+      image_name: { required: true, type: string }
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - use: actions/chekout@v4
+      - run: docker build -t ${{ inputs.image_name }} .
+      - run: docker run ${{ inputs.image_name }} pytest 
+
+---
+
+## CALLER WORKFLOW
+name: Microservice CI
+on: [push]
+jobs:
+  serviceA:
+    uses: org/.github/workflows/ci-template.yml@main
+    with: { image_name: serviceA }
+
+---
+ 
+ ### EQUIVALENT
+include:
+  - local: '.gitlab-ci-template.yml'
+  
