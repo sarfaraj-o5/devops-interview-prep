@@ -1,0 +1,4 @@
+initContainers:
+- name: init-db
+  image: busybox
+  command: ['sh','-c', 'echo Waiting for DB && sleep 10']

@@ -121,3 +121,129 @@ canary = gradual % traffic shift
 
 kubectl describe pod --> check event nodes had taint ${app=backend} not tolerated
 
+## troubleshoot
+pod pending -> "0/3 nodes available" -> check affinity conditions
+kubectl describe pod pod_name
+
+## daemonset troubleshoot
+deploy node exporter on every node for prometheus monitoring
+Daemonset pods not scheduled -> check taints/tolerations or nodeSelector mismatch
+
+## init containers & emptyDir
+## helm troubleshoot
+helm template ./chart -> render yaml locally to debug
+if upgrade fails -> use --debug --dry-run
+
+## ingress-controller
+options: nginx, alb, traefik
+single alb routes /api -> backend / -> frontend
+ingress not working
+kubectl get ingress
+kubectl describe ingress web-ingress
+Check contoller pod logs, dns map(route53 -> LB DNS)
+
+## rbac
+kubectl get rolebinding
+kubectl auth can-i list pods --as system:serviceaccount:dev:backend-sa
+
+## networking
+policy applied but traffic blocked
+verify cni plugin supports policies(calico, cilium)
+check kubectl describe netpol
+
+### terraform aws
+aws eks describe-cluster
+
+## pod restarting repeatedly --> livenessProbe failing
+kubectl describe pod pod_name
+adjust intialDelaySeconds & timeoutSeconds
+
+## hostpath vol
+mounts host dir inside pod
+used for logs, daemon agents --> daemonset collecting node logs
+
+Pod can't start --> hostPath path missing --> pre-create it
+
+## eks blue-green upgrade
+terraform apply new version
+new node group --> validate pods scheduling
+kubectl drain old-nodes
+delete old node-group
+
+node drain stuck --> check PodDisruptionBudgets
+validations fails --> rollback via terraform state restore
+
+## CrashLoopBackOff --> kubectl logs --previous
+ImagePullBackOff - kubectl create secret docker-registry
+Service unreachable - selector mismatch = kubectl get pods --show-labels
+DNS not resolving - kubeclt logs -n kube-system coredns-*
+Node not ready - kubelet down - systemctl restart kubelet
+pvc pending - no storageclass/wrongAZ - kubectl describe pvc
+ingress not routing - controller misconfig - kubectl describe ingress
+hpa not scaling - metrics-server missing - kubectl top pods
+readinessProbe failing - startup delay - adjust probe timing
+
+## troubleshoot k8s
+kubectl get pods -o wide
+describe pod --> check logs, configmap, secrets or resource limits. 
+If cluster-wide -> check kubelet, node health, CNI status
+
+## eks security & iam integration
+enable oidc provider
+aws eks update-cluster-config --region ap-south-1 --name mycluster --associate-oidc-provider
+
+annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::12345:role/s3-access-role
+
+## secrets encryp with kms
+encryption_config {
+    resources = ["secrets"]
+    provider {
+        key_arn = aws_kms_key.eks.arn
+    }
+}
+
+## audit log
+enable api audit log in eks -> CW logs for trace prometheus+grafana
+Deploy with helm
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm install monitoring prometheus-community/kube-prometheus-stack
+
+## log aggrgation - loki/efk
+loki + promtail + grafana - lightweight log stack
+efk - elasticsearch + fluentd + kibana - for deep search
+
+Pod crashes = checks logs in grafana via loki filter {namespace="prod",pod="api-xyz"}
+
+## rollback mechanism
+helm rollback relase rev
+state revert + terraform destroy(old resources)
+github actions:: conditional rollback job on failure
+
+## Crashloopbackoff after configmap change
+kubectl rollout restart deployment app_name
+
+## service unreachable from ingress
+kubectl describe ingress -> verify servicePort, ensure ingress controller healthy
+
+## ebs vol not attach
+pvc pending - ensure ebs vol az matches node az, define StorageClass provisioner ebs.csi.aws.com
+
+## hpa not scaling under load 
+pods stuck at min replicas
+install metrics-server, validate metrics api - kubectl get apiservices
+
+## node pressure evicts pods
+prometheus alert= NodePressureDiskSpace
+
+## terraform state drift
+terraform refresh & plan 
+
+## ingress tls error
+alb.ingres.kubernetes.io/certificate-arn
+
+## pods can't access external internet
+public eks nodes - check natgw / rtb table; pvt cluster - add vpc endpoint
+ 
+##  helm chart rollback
+helm history release - find stable rev = helm rollback release 

@@ -1,0 +1,14 @@
+## podAffinity & PodAntiAffinity
+# podAffinity: keeps pods together(same zone or node)
+ # podAntiAffinity: spread pods out to diffn nodes
+
+podAntiAffinity: 
+  requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: app
+          operator: In
+          values: ["frontend"] ## multi replicas of frontend -> spread across nodes to avoid downtime
+      topologyKey: "kubernetes.io/hosname"
+
+      

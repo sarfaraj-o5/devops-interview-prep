@@ -1,0 +1,10 @@
+nodeAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+    nodeSelectorTerms:
+    - matchExpressions:
+      - key: node-type
+        operator: In 
+        values: ["high-cpu"]
+
+
+ 

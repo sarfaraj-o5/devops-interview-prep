@@ -1,0 +1,4 @@
+volumes:
+- name: host-logs
+  hostPath: 
+    path: /var/log 
