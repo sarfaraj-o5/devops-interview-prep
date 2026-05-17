@@ -213,3 +213,12 @@ deploy:
       { "text": "Deployment Succeeded for ${{ github.ref }}"}
     env: 
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
+### docker
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/chekout@v4
+      - run: docker build -t myapp:${{ github.sha }} .
+      - run: docker push myapp:${{ github.sha }}

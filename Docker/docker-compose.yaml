@@ -1,0 +1,81 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    catalogue:
+      build: ./catalogue
+      ports:
+        - "8080:8080"
+      depends_on:
+        - mongo
+---
+## mongodb + backend + frontend 
+version: '3'
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+  backend:
+    build: ./backend
+    environment: 
+      - DB_HOST=mongodb
+    depends_on: 
+      - mongodb
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on: 
+      - backend
+
+##  mysql + backend + frontend
+version: '3.8'
+services:
+  mysql: 
+    image: mysql: 8
+    environment:
+      - MYSQL_ROOT_PASSWORD: root 
+      - MYSQL_DATABASE: appdb
+    volumes:
+    - db_data: /var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin","ping","-h","localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./build
+    environment:
+      - DB_HOST: mysql
+      - DB_USER: root
+      - DB_NAME: appdb
+    depends_on:
+      - mysql:
+          condition: service_healthy
+  
+  frontend:
+    build: ./frontend
+    ports:
+    - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  db_data
+
+## run docker compose up -d
+## secrets
+services:
+  app: 
+    image: myapp
+    secrets:
+      - my_secret
+
+secrets:
+  my_secret:
+    file: ./secret.txt
+    

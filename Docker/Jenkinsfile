@@ -1,0 +1,8 @@
+## multiple docker images 
+stage('Build') {
+    parallel {
+        stage('Catalogue') {steps {sh 'docker build -t app/catalogue .'}}
+        stage('User') {steps {sh 'docker build -t app/user .'}}
+        stage('Cart') {steps {sh 'docker build -t app/cart .'}}
+    }
+}

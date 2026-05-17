@@ -1,0 +1,9 @@
+services:
+  app:
+    image: myapp:1.0
+    environment:
+      - ENV=prod 
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
