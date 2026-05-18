@@ -1,0 +1,12 @@
+kind: Service 
+apiVersion: v1
+metadata: 
+  name: hostname-service
+spec: 
+  type: NodePort  ## make the svc available to network requests from external clients
+  selector:
+    app: echo-hostname  ## forward requests to pods with label of this value
+  ports:
+    - nodePort: 30163 ## access svc via external port no.
+      port: 8080 ## port no. exposed internally in cluster
+      targetPort: 80  # port that containers are listening on

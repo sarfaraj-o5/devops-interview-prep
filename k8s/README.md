@@ -247,3 +247,61 @@ public eks nodes - check natgw / rtb table; pvt cluster - add vpc endpoint
  
 ##  helm chart rollback
 helm history release - find stable rev = helm rollback release 
+
+## k8s cluster is running but app are not starting
+kubectl get nodes
+kubectl get pods -n kube-system
+
+## pod stuck in pending state
+no node enough cpu/memory
+node selectors/affintiy mismatch
+taints withour tolerations
+scheduler unable to place pod
+kubectl describe pod pod_name
+
+## container inside a pod crashes
+kubelet restarts container -> pod ip remains same -> restart count increases -> pod enters CrashLoopBackOff
+
+## app broke
+kubectl rollout undo deployment deploy/name ## switch back to previous ReplicaSet auto
+
+## scale an app manual
+kubectl scale deployment name --replica=5
+
+## external traffic reach a pod
+client -> service -> kube-proxy -> pod
+
+## troubleshoot failting pod
+kubectl get pods
+kubectl describe pod pod_name
+kubectl logs pod_name
+kubectl exec -it pod_name -- /bin/sh
+
+## master node goes down 
+no new deploy/scailing, existing pods keep running on worker node, kubectl stop working
+kubectl cluster-info ## api-server availabilty
+
+## kubectl uses
+$HOME/.kube/config
+context(cluster + user + namespace)
+
+## nodeselector
+nodeSelector:
+    disktype: ssd
+
+kubectl taint nodes node1 key=value:NoSchedule
+kubectl taint nodes node1 key:NoSchedule- ## to remove taint
+
+KUBECONFIG ENV
+--kubeconfig flag
+
+## cmds
+kubectl rollout history deployment/deploy_name
+
+kubectl rollout undo deployment/deploy_name -to-revision=N
+
+kubectl expose deployment nginx --port=80 --type=NodePort
+
+
+
+
