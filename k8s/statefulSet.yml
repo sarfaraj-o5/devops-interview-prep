@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: StatefulSet 
+metadata:
+  name: mysql
+  namespace: dev
+spec:
+  serviceName: mysql
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+    spec:
+      containers: 
+      - name: mysql
+        image: mysql:8.0
+        ports:
+        - containerPort: 3306
+
+        env: 
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: DB_NAME
+
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: DB_NAME  
+
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: DB_PASSWORD
+      
+      volumeMounts:
+      - name: mysql-storage
+        mountPath: /var/lib/mysql
+
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-storage
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      storageClassName: ebs-sc
+      resources:
+        requests:
+          storage: 20Gi

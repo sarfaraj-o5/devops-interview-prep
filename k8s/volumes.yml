@@ -1,4 +1,9 @@
-volumes:
-- name: host-logs
-  hostPath: 
-    path: /var/log 
+spec: 
+  volumes:
+  - name: app-volume
+    emptyDir: {}
+  
+## mounts inside container
+volumeMounts:
+- name: app-volume 
+  mountPath: /data

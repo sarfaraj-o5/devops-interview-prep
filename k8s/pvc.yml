@@ -1,0 +1,21 @@
+## mysql pvc(requests storage)
+
+apiVersion: v1
+kind: PersistentVolumeClaim 
+metadata:
+  name: mysql-pvc
+  namespace: dev
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ebs-sc
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+
+## flow -- pvc -> storageclass -> ebs volume
+ 
+
+  

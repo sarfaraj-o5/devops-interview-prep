@@ -331,4 +331,16 @@ Tolerations - apply on pods - allow pods to tolerate taints
 
 configmap - change config withour rebuilding image
 
+kind: Deployment
+spec: 
+    replicas: 3
+
+## frontend-> backend -> db flow
+user -> lb svc -> frontnd pod(clusterip) -> backend pod(clusterip) -> db pod
+
+## pv, pvc
+pod -> pvc -> pv
+
+## headless svc
+clusterIP: None = statefulset direct pod DNS
 

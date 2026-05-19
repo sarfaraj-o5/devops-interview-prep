@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap 
+metadata:
+  name: app-config 
+data:
+  DB_HOST: mysql
+  DB_PORT: "3306"
+
+## configmap in pod
+env: 
+- name: DB_HOST
+  valueFrom:
+    configMapRef:
+      name: app-config
+      key: DB_HOST
+
+## env
+env: 
+- name: BACKEND_URL
+  value: http://backend 
+
+## configmap
+kind: ConfigMap 
+data:
+  DB_HOST: mysql
