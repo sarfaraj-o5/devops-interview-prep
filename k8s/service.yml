@@ -23,3 +23,50 @@ spec:
   ports:
   - port: 80 ## svc port
     targetPort: 80 ## container port
+
+---
+## mysql headless svc 
+apiVersion: v1
+kind: Service 
+metadata:
+  name: mysql
+  namespace: dev
+spec: 
+  clusterIP: None 
+  selector:
+    app: mysql
+  ports:
+  - port: 3306
+    targetPort: 3306
+
+---
+## backend svc 
+apiVersion: v1
+kind: Service 
+metadata:
+  name: backend
+  namespace: dev
+spec: 
+  type: ClusterIP
+  selector:
+    app: backend
+  ports:
+  - port: 80
+    targetPort: 3000
+
+## dns used by frontend 
+backend.dev.svc.cluster.local 
+
+## frontend lb svc
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: dev 
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+  - port: 80
+    targetPort: 80

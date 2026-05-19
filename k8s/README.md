@@ -344,3 +344,6 @@ pod -> pvc -> pv
 ## headless svc
 clusterIP: None = statefulset direct pod DNS
 
+full connectivity flow
+user -> aws lb -> frontend pods(clusterip svc) -> backend pods(headless svc) -> mysql statefulset -> ebs vol.
+
