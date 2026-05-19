@@ -347,3 +347,11 @@ clusterIP: None = statefulset direct pod DNS
 full connectivity flow
 user -> aws lb -> frontend pods(clusterip svc) -> backend pods(headless svc) -> mysql statefulset -> ebs vol.
 
+## real flow end to end
+developer -> dockerfile -> docker build -> docker image -> image registry(ecr/acr/hub) -> k8s pull images -> container runtime runs container
+
+# how backend connects to rds
+eks node sg -> rds sg(3306)
+backend pod -> rds dns(direct)
+
+user -> aws lb -> frontnd pod -> backend svc(clusterip) -> backend pod -> rds endpoint(managed db)

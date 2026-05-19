@@ -23,3 +23,15 @@ env:
 kind: ConfigMap 
 data:
   DB_HOST: mysql
+
+---
+## configmap for managed db
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config 
+  namespace: dev
+data:
+  DB_HOST: mydb.cle.ap-south-1.rds.amazonaws.com 
+  DB_PORT: "3306"
+  DB_NAME: appdb

@@ -322,8 +322,33 @@ cAdvisor --> exposes container metrics
 prometheus + grafana -- > visualize usage
 datadog/newrelic/sysdig --> full observability
 
+## backend/Dockerfile
+docker build -t myrepo/backend:1.0 .
+# push image to registry
+ECR
+aws ecr get-login-password \
+    | docker login \
+    --username AWS \
+    --password-stdin <account>.dkr.ecr.ap-south-1.amazonaws.com
 
 
+docker tag backend:1.0 <ecr_url>/backend:1.0
+docker push <ecr_url>/backend:1.0
+
+deploy.yml
+containers:
+- name: backend
+  image: <ecr_url>/backend:1.0
+
+## image update flow(rolling deploy)
+docker build -t backend:2.0
+docker push backend:2.0
+
+update in yaml 
+image: backend:2.0
+
+## managed db flow
+backend pod -> k8s svc dns(not db) -> pvt endpoint -> rds(mysql/postgreSql)
 
 
 
