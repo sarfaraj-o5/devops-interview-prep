@@ -10,3 +10,16 @@ spec:
     - nodePort: 30163 ## access svc via external port no.
       port: 8080 ## port no. exposed internally in cluster
       targetPort: 80  # port that containers are listening on
+---
+
+apiVersion: v1
+kind: Service 
+metadata: 
+  name: web-service 
+spec:
+  type: ClusterIP
+  selector:
+    app: web
+  ports:
+  - port: 80
+    targetPort: 80

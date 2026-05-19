@@ -302,6 +302,33 @@ kubectl rollout undo deployment/deploy_name -to-revision=N
 
 kubectl expose deployment nginx --port=80 --type=NodePort
 
+kubectl get pods --all-namespaces | grep dns
 
+kubectl exec -it busybox --nslook nginx
+
+### ingress
+kubectl expose deployment ghost --port=2368
+
+kubectl proxy
+curl -H "Contect-Type: application/json" -X POST --data @binding.json
+
+## rbac
+kubectl create role fluent-reader --verb=get --verb=list --verb=watch --resource=pod
+kubectl create rolebinding foo --role=fluent-reader --user=kube
+kubectl get rolebinding foo -o yaml
+
+requiredDuringScheduling(hard)
+prefferedDuringScheduling(soft)
+
+PodAffinity = place pods together
+
+PodAntiAffinity - ensures pods donot run on same node
+
+Taints - apply on nodes - repel pods
+kubectl taint nodes node1 key=value:NoSchedule
+
+Tolerations - apply on pods - allow pods to tolerate taints
+
+configmap - change config withour rebuilding image
 
 
