@@ -1,0 +1,13 @@
+## bind dev team
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: dev-read-only-binding
+  namespace: prod
+subjects:
+- kind: Group 
+  name: developer
+roleRef:
+  kind: Role
+  name: dev-read-only
+  apiGroups: rbac.authorization.k8s.io

@@ -417,3 +417,40 @@ backend pods = 10
 connections per pod = 40
 total = 400(safe)
 
+subnet tagging
+pub sub must have
+kubernetes.io/role/elb = 1
+kubernetes.io/cluster/<cluster_name> = owned
+
+alb-ingress-controller-role
+
+alb.ingress.kubernetes.io/scheme: internet-facing
+
+alb.ingress.kubernetes.io/target-type: ip
+
+alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+
+alb.ingress.kubernetes.io/certificat-arn: arn:aws:acm...
+
+user = app.company.com -> dns -> alb dns -> alb -> pod ip
+
+CNAME app.company.com -> k8s-prod-alb-12.elb.amazonaws.com
+
+alb.ingress.kubernetes.io/wafv2-acl-arn: arn:aws:wafv2..
+
+kubectl get ingress
+kubectl describe ingress app-ingress
+kubectl logs -n kube-system deploy/aws-load-balancer-controller
+
+browser -> public dns(route53) -> alb dns name -> alb listener(443) -> tls termination(acm) -> target group -> pod ip(frontend)
+
+domain: company.com
+hostedzone: company.com
+
+subdomain = app.company.com, api.company.com
+
+kuectl -> iam -> eks api server
+
+
+
+
