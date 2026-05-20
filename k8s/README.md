@@ -355,3 +355,65 @@ eks node sg -> rds sg(3306)
 backend pod -> rds dns(direct)
 
 user -> aws lb -> frontnd pod -> backend svc(clusterip) -> backend pod -> rds endpoint(managed db)
+
+pod -> backend -> rds flow
+pod eni ip (10.0.3.x) - routetable(local) - rdsip(10.0.5.x) - mysql
+
+user -> frontend flow
+browser -> internet -> alb(pub sub) - nodeport/podIP - frontend pod
+
+aws iam + k8s rbac + aws-auth + irsa
+
+## permissions
+AmazonEKSClusterPolicy
+AmazonEKS_CNI_Policy
+AmazonEC2ContainerRegistryReadOnly
+
+## aws-auth
+namespace: kube-system
+name: aws-auth
+
+## node role mapping(mandatory)
+mapRoles: |
+    - rolearn: arn:aws:iam::<ACC_ID>:role/eks-nodegroup-role
+    username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+
+## EKS
+kubectl get pods - cli calls - eks:GetToken
+
+## map admin iam role
+mapRoles: |
+    - rolearn: arn:aws:iam::<ACC_ID>:role/platform-admin
+    username: admin
+      groups:
+        - system:masters
+
+## iam role : cicd-deployer role
+eks:GetToken
+sts:AssumeRol
+mapped in aws-auth
+mapRoles: |
+    - rolearn: arn:aws:iam:<ACC_ID>:role/ci-cd-deployer-role
+    username: cicd
+    groups:
+      - deployers
+
+## backend connectivity 
+backend pod -> pod eni ip (10.0.3.x) -> vpc route table -> rds eni(10.0.5.x) - mysql engine
+
+## backend config(helm values)
+db:
+    host: mysql.cle2abcv.ap-suuth-1.rds.amazonaws.com
+
+## 
+until nc -z mydb.cleabc.ap-south-1.rds.amazonaws.com 3306; do sleep 5; done
+
+## pooling
+RDS max_connections = 500
+backend pods = 10
+connections per pod = 40
+total = 400(safe)
+

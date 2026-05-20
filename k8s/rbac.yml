@@ -8,3 +8,17 @@ rules:
     - [""]
   resources: ["pods"]
   verbs: ["get","list"]
+
+---
+## rbac for cicd
+apiVersion: rbac.authorization.k8s.io/v1 
+kind: ClusterRole
+metadata:
+  name: deployer-role 
+rules:
+- apiGroups: ["," "apps","networking.k8s.io"]
+  resources: ["deployments","Services", "ingress"]
+  verbs: ["get","list", "apply", "create","update"]
+
+## bound via clusterRoleBinding
+---
