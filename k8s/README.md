@@ -543,4 +543,6 @@ minAvailable: 2
 
 topologySpread = ensures HA across zones
 
+fsGroup or securityContext= pod cant write to mounted vol
+
 
