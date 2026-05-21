@@ -1,0 +1,5 @@
+apiVersion: batch/v1
+kind: CronJob 
+spec:
+  schedule: "0 2 * * *"
+

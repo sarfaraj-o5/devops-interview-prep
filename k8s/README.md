@@ -514,3 +514,33 @@ startupProbe:
 update configmap
 kubectl rollout restart deploy backend
 
+init -> wait for DB
+sidecar -> log shipper, proxy
+
+AmazonEC2ContainerRegistryReadOnly
+
+termintaionGracePeriodSeconds: 30
+
+extentions/v1beta1 ingress removed -> app fails
+
+safe upgrade -> scan manifest with kubeconform / pluto before upgrade
+
+RBAC controls who
+Admission controls what
+
+helm install cart ./roboshop-cart
+helm upgrade cart ./roboshop-cart
+helm rollback cart 1
+
+helm= package manager, Kustomize = overlay tool
+
+aws eks update-kubeconfig
+
+kubectl drain node 1
+
+PDB = podDisruptionBudget
+minAvailable: 2
+
+topologySpread = ensures HA across zones
+
+

@@ -4,3 +4,17 @@ metadata:
   name: app-ingress 
   annotations: 
     kubernetes.io/ingress.class: alb 
+spec: 
+  rules:
+  - host: cart.roboshop.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend: 
+          service:
+            name: cart 
+            port:
+              number: 80
+
+              
