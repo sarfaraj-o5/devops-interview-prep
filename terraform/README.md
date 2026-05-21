@@ -38,3 +38,15 @@ terraform taint aws_instance.web
 use tflint/chckov policies and Terratest(Go)
 
 TOCTOU changes
+
+terraform apply -debug
+
+git -> build -> docker -> ecr -> eks -> alb
+
+eks backend pods -> rds(pvt subnet)
+
+eks/lambda -> dynamodb
+
+git -> cicd -> ecr -> eks(pvt subnet) -> alb(pub sub) -> route53 -> user
+
+

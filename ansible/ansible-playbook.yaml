@@ -1,0 +1,14 @@
+- hosts: web
+  become: yes
+  tasks:
+  - name: install nginx
+    apt:
+      name: nginx
+      state: present
+
+---
+
+vars: 
+  app_port: 8080
+
+  
