@@ -476,4 +476,41 @@ kubectl get deploy -n prod
 kubectl logs <pod>
 kubectl logs <pod> --previous
 
+primary region -> prod traffic
+secondary region -> warm standby
+
+
+user -> route53 -> alb(ingress) -> frontend(eks) -> backend(eks) -> rds(multi-az)
+
+## deploy strategy
+spec:
+    strategy:
+        type: RollingUpdat | Recreate
+
+## rolling update
+strategy:
+    type: RollingUpdata
+    rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+
+## recreate
+strategy:
+    type: Recreate
+
+## rollout
+kubectl rollout status deploy backend
+kubectl rollout histroty deploy backend
+kubectl rollout undo deploy backend --to-revision=2
+
+## startup probe
+startupProbe:
+    httpGet:
+        path: /health
+        port: 8080
+    failureThreshold: 30
+    periodSeconds: 10
+
+update configmap
+kubectl rollout restart deploy backend
 
