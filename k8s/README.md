@@ -545,4 +545,23 @@ topologySpread = ensures HA across zones
 
 fsGroup or securityContext= pod cant write to mounted vol
 
+production outage
+events -> pod status -> logs -> svc -> ingress -> node health
+
+concurrencyPolicy
+
+kubectl drani node --ignore-daemonsets --delete-emptyDir-data
+
+Set runAsNonRoot
+
+kubeclt debug
+
+imagePullSecrets 
+
+kubectl apply --dry-run + CI checks
+
+hotfix commit -> sync -> revert properly
+
+
+
 
