@@ -449,8 +449,31 @@ hostedzone: company.com
 
 subdomain = app.company.com, api.company.com
 
-kuectl -> iam -> eks api server
+kubectl -> iam -> eks api server
 
+## irsa flow
+pod -> serviceacc -> oidc token -> iam role -> aws api
 
+## irsa trust policy
+Condition:
+    StringEquals:
+        oidc.eks...'sub':
+            system:serviceaccount:prod:backend-sa
+
+## debug rbac 
+kubectl auth can-i delete pods -n prod --as dev-user
+
+prometheus arch -> scrapes metrics endpoint -> stores time series -> evaluate by rules -> alerts sent to Alertmanager
+
+pod -> stdout -> log agent(daemonSet) -> central store(loki/elk)
+
+kubectl get event -n prod --sort-by=.lastTimestamp
+
+kubectl get pods -n prod
+kubectl get hpa -n prod
+kubectl get deploy -n prod
+
+kubectl logs <pod>
+kubectl logs <pod> --previous
 
 
