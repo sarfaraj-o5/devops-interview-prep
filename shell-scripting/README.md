@@ -22,3 +22,58 @@ native --> hybrid
 python --> not 100% --> in background it uses shell script
 if you are callin other systems then you can go for python
 
+variables
+data types
+conditions
+loops
+functions
+
+list of commands + scripting concepts
+
+1. you can directly create vars and assign value inside shell script
+2. how can you run a cmd inside shell script & get value inside vars
+3. you can pass val to shell script from outside through args
+4. YOU can ask user to enter the val dynamiclly i.e read cmd
+running a script that connects to DB, username & password
+
+##### DATA TYPES #########
+mostly everything is string here, but you pass number shell script understand its number
+
+array = list of elements
+
+##### BOOLEAN - TRUE/FALSE ###
+boolean --> 0 = failure
+            1 = success
+
+#### EXIT CODES #####
+1
+2 -> error, is it safe to move forward or not?
+3
+4
+
+unfortunately shell dont care the error, it'll just move forward
+it is our responsibility to check success or not
+$? = 0 success
+1-127 = failure
+check the exit code at every line...
+0 or not
+
+### CONDITION ####
+if [ expression ] 
+then
+    Statements to be exec if expression is true
+else
+    Statements to be exec if expression is false
+fi
+
+first findout user has root access or not
+if he has root access forward, otherwise inform him you are not root user
+
+algorithm
+TASK: install any package
+1. we need root access
+2. check user has root access or not
+3. if yes proceed
+4. if no tell him you are not root user and exit
+
+if id -u is 0 then root
