@@ -19,3 +19,33 @@ then
 else   
     echo "Git installation is success"
 fi
+
+echo "Installing wget"
+apt install wget -y
+
+if [ $? -ne 0 ]
+then
+    echo "wget installation is failed"
+else   
+    echo "wget installation is success"
+fi
+
+echo "Installing net-tools"
+apt install net-tools -y
+
+if [ $? -ne 0 ]
+then
+    echo "net-tools installation is failed"
+else   
+    echo "net-tools installation is success"
+fi
+
+echo "Installing vim"
+apt install vim -y
+
+if [ $? -ne 0 ]
+then
+    echo "vim installation is failed"
+else   
+    echo "vim installation is success"
+fi
