@@ -11,7 +11,8 @@ fi
 
 echo "Installing Git"
 
-yum install git -y
+# yum install git -y
+apt install git -y
 
 if [ $? -eq 0 ]
 then
