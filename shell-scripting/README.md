@@ -77,3 +77,13 @@ TASK: install any package
 4. if no tell him you are not root user and exit
 
 if id -u is 0 then root
+
+sleep 20 & # to send this cmd in background
+echo $? # exit code
+
+# required to install multiple packages
+
+git 
+vim
+wget
+net-tools
