@@ -25,18 +25,18 @@ VALIDATE(){
     fi
 }
 
-yum install git -y &>>$LOG_FILE
+apt install git -y &>>$LOG_FILE
 
 VALIDATE $? "GIT Installation"
 
-yum install vimmm -y &>>$LOG_FILE
+apt install vimmm -y &>>$LOG_FILE
 
 VALIDATE $? "VIM Installation"
 
-yum install wget -y &>>$LOG_FILE
+apt install wget -y &>>$LOG_FILE
 
 VALIDATE $? "WGET Installation"
 
-yum install net-tools -y &>>$LOG_FILE
+apt install net-tools -y &>>$LOG_FILE
 
 VALIDATE $? "NET-TOOLS Installation"
