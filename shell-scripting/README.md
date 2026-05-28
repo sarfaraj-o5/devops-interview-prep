@@ -142,4 +142,5 @@ echo $USERS
 
 cat /etc/passwd | awk -F ":" '{print $1F}' | head -n 1  # it'll print 1colounm 1string
 
+global var = nothing but outside of the function
 
