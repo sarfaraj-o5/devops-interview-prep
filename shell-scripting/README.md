@@ -135,3 +135,11 @@ if not installed install it
 
 &>/dev/null = it doesnt give any output
 
+cat /etc/passwd | awk -F ":" '{print $F}' # field seperator/fragmentation
+
+USERS=$(cat /etc/passwd | awk -F ":" '{print $1F}')  # to store in vars
+echo $USERS
+
+cat /etc/passwd | awk -F ":" '{print $1F}' | head -n 1  # it'll print 1colounm 1string
+
+
