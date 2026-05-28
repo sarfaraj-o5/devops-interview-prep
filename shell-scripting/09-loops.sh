@@ -35,5 +35,5 @@ do
         apt install $PACKAGE -y
         VALIDATE $? "$PACKAGE Installation"
     else
-        echo "$PACKAGE ... $Y Installed Already $N"
+        echo -e "$PACKAGE ... $Y Installed Already $N"
 done
