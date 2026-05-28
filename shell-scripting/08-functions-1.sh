@@ -15,10 +15,10 @@ fi
 VALIDATE() {
     if [ $1 -ne 0 ] # $? exit codes staus store/reveives on this $1 or passing exit code in $1
     then
-        echo "$2 ... FAILED" &>>$LOG_FILE
+        echo "$2 ... FAILED" 
         exit 1  # it'll stop here
     else   
-        echo "$2 ... SUCCESS" &>>$LOG_FILE
+        echo "$2 ... SUCCESS" 
     fi    
 }
 
@@ -26,7 +26,7 @@ apt install git -y &>>$LOG_FILE
 
 VALIDATE $? "GIT Installation"  ## $2 exit status of above function/cmd
 
-apt install vimmmm -y &>>$LOG_FILE
+apt install vim -y &>>$LOG_FILE
 
 VALIDATE $? "VIM Installation"
 
