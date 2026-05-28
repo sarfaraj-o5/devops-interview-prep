@@ -107,5 +107,23 @@ output redirection =
 
 > = redirection
 >> = appending
+GREEN = 32m
+RED = 31m
+NORMAL = 0m
 
 date +"%F-%H-%M-%S"
+
+##### LOOPS ####
+loops --> DRY
+for (int i=0; i<20; i++>) {
+    echo $i
+}
+
+$@ = everything
+
+for VARIABLE in 1 2 3 4 5 .. N
+do
+    command1
+    command2
+    command3
+done
