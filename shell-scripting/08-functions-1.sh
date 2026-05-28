@@ -1,7 +1,8 @@
 #!/bin/bash
 
 USERID=$(id -u)
-
+DATE=$(date +"%F-%H-%M-%S")
+LOG_FILE=$DATE
 # check user is root or not
 
 if [ $USERID -ne 0 ]
@@ -14,26 +15,26 @@ fi
 VALIDATE() {
     if [ $1 -ne 0 ] # $? exit codes staus store/reveives on this $1 or passing exit code in $1
     then
-        echo "$2 ... FAILED" ##  
+        echo "$2 ... FAILED" &>>LOG_FILE
         exit 1  # it'll stop here
     else   
-        echo "$2 ... SUCCESS"
+        echo "$2 ... SUCCESS" &>>LOG_FILE
     fi    
 }
 
-apt install git -y
+apt install git -y &>>LOG_FILE
 
-VALIDATE $? "GIT Installation"  ## exit status of above function/cmd
+VALIDATE $? "GIT Installation"  ## $2 exit status of above function/cmd
 
-apt install vimmmm -y
+apt install vimmmm -y &>>LOG_FILE
 
 VALIDATE $? "VIM Installation"
 
-apt install wget -y
+apt install wget -y &>>LOG_FILE
 
 VALIDATE $? "WGET Installation"
 
-apt install net-tools -y
+apt install net-tools -y &>>LOG_FILE
 
 VALIDATE $? "NET-TOOLS"
 
