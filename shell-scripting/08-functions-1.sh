@@ -15,7 +15,7 @@ VALIDATE() {
     if [ $1 -ne 0 ] # $? exit codes staus store/reveives on this $1 or passing exit code in $1
     then
         echo "$2 ... FAILED" ##  
-        exit 1
+        exit 1  # it'll stop here
     else   
         echo "$2 ... SUCCESS"
     fi    
