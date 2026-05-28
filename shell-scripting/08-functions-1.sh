@@ -6,7 +6,7 @@ LOG_FILE="$DATE.log"
 R="\e[31m"
 G="\e[32m"
 N="\e[0m"
-# check user is root or not
+#check user is root or not
 
 if [ $USERID -ne 0 ]
 then
@@ -14,37 +14,29 @@ then
     exit 1
 fi
 
-# this is generic function, we need to pass arguments
-VALIDATE() {
-    if [ $1 -ne 0 ] # $? exit codes staus store/reveives on this $1 or passing exit code in $1
+#this is a generic function, we need to pass arguments
+VALIDATE(){
+    if [ $1 -ne 0 ]
     then
-        echo -e "$2 ... $R FAILED $N" 
-        exit 1  # it'll stop here
-    else   
-        echo -e "$2 ... $G SUCCESS $N" 
-    fi    
+        echo -e "$2 ... $R FAILED $N"
+        exit 1
+    else
+        echo -e "$2 ... $G SUCCESS $N"
+    fi
 }
 
-apt install git -y &>>$LOG_FILE
+yum install git -y &>>$LOG_FILE
 
-VALIDATE $? "GIT Installation"  ## $2 exit status of above function/cmd
+VALIDATE $? "GIT Installation"
 
-apt install vimmmm -y &>>$LOG_FILE
+yum install vimmm -y &>>$LOG_FILE
 
 VALIDATE $? "VIM Installation"
 
-apt install wget -y &>>$LOG_FILE
+yum install wget -y &>>$LOG_FILE
 
 VALIDATE $? "WGET Installation"
 
-apt install net-tools -y &>>$LOG_FILE
+yum install net-tools -y &>>$LOG_FILE
 
-VALIDATE $? "NET-TOOLS"
-
-
-# VALIDATE $? # exit code of above cmd
-# VALIDATE $? "GIT Installation"
-                $2
-
-# sh functions-1.sh git ## passing arguments
-#                   $1  
+VALIDATE $? "NET-TOOLS Installation"
