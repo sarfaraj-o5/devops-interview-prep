@@ -3,6 +3,9 @@
 USERID=$(id -u)
 DATE=$(date +"%F-%H-%M-%S")
 LOG_FILE="$DATE.log"
+R="\e[31m"
+G="\e[32m"
+N="\e[0m"
 # check user is root or not
 
 if [ $USERID -ne 0 ]
@@ -15,10 +18,10 @@ fi
 VALIDATE() {
     if [ $1 -ne 0 ] # $? exit codes staus store/reveives on this $1 or passing exit code in $1
     then
-        echo "$2 ... FAILED" 
+        echo -e "$2 ... $R FAILED $N" 
         exit 1  # it'll stop here
     else   
-        echo "$2 ... SUCCESS" 
+        echo -e "$2 ... $G SUCCESS $N" 
     fi    
 }
 
