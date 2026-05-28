@@ -87,3 +87,14 @@ git
 vim
 wget
 net-tools
+
+functions -- does a unit of work, you can create functions and use it wherever required. a change in single place reflects everywhere
+
+variables -- using wherever we require, if you change in one place this is reflected everywhere
+
+FUNCTION_NAME() {
+
+}
+
+FUNCTION_NAME # THIS is how you call the function
+
