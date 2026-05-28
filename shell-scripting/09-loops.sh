@@ -27,6 +27,6 @@ VALIDATE(){
 
 for PACKAGE in $@ # git vim net-tools wget
 do
-    apt install $PACKAGE -y
+    apt install $PACKAGE -y &>>$LOG_FILE
     VALIDATE $? "$PACKAGE Installation"
 done
