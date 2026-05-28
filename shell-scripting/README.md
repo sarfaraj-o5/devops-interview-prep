@@ -127,3 +127,11 @@ do
     command2
     command3
 done
+
+i dont want to try installing already installed pkges
+first check already installed or not
+if installed skip it
+if not installed install it
+
+&>/dev/null = it doesnt give any output
+

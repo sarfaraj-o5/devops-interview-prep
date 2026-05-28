@@ -5,6 +5,7 @@ DATE=$(date +"%F-%H-%M-%S")
 LOG_FILE="$DATE.log"
 R="\e[31m"
 G="\e[32m"
+Y="\e[33m"
 N="\e[0m"
 #check user is root or not
 
@@ -27,6 +28,12 @@ VALIDATE(){
 
 for PACKAGE in $@ # git vim net-tools wget
 do
-    apt install $PACKAGE -y &>>$LOG_FILE
-    VALIDATE $? "$PACKAGE Installation"
+    apt -q list --installed $PACKAGE &>/dev/null
+    if [ $? -ne 0 ]
+    then
+        echo "$PACKAGE ... Not Installed"
+        apt install $PACKAGE -y
+        VALIDATE $PACKAGE "$PACKAGE Installation"
+    else
+        echo "$PACKAGE ... Installed Already"
 done
