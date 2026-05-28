@@ -98,3 +98,14 @@ FUNCTION_NAME() {
 
 FUNCTION_NAME # THIS is how you call the function
 
+logs 
+
+output redirection =
+1 = success
+2 = failure
+& = both
+
+> = redirection
+>> = appending
+
+date +"%F-%H-%M-%S"
