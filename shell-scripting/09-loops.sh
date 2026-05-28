@@ -32,7 +32,7 @@ do
     if [ $? -ne 0 ]
     then
         echo "$PACKAGE ... Not Installed"
-        apt install $PACKAGE -y
+        apt install $PACKAGE -y &>>LOG_FILE
         VALIDATE $? "$PACKAGE Installation"
     else
         echo -e "$PACKAGE ... $Y Installed Already $N"
