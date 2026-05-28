@@ -24,7 +24,7 @@ apt install git -y
 
 VALIDATE $? "GIT Installation"  ## exit status of above function/cmd
 
-apt install vim -y
+apt install vimmmm -y
 
 VALIDATE $? "VIM Installation"
 
