@@ -33,7 +33,7 @@ do
     then
         echo "$PACKAGE ... Not Installed"
         apt install $PACKAGE -y
-        VALIDATE $PACKAGE "$PACKAGE Installation"
+        VALIDATE $? "$PACKAGE Installation"
     else
         echo "$PACKAGE ... $Y Installed Already $N"
 done
