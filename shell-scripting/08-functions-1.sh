@@ -2,7 +2,7 @@
 
 USERID=$(id -u)
 DATE=$(date +"%F-%H-%M-%S")
-LOG_FILE=$DATE
+LOG_FILE="$DATE.log"
 # check user is root or not
 
 if [ $USERID -ne 0 ]
