@@ -29,7 +29,7 @@ apt install git -y &>>$LOG_FILE
 
 VALIDATE $? "GIT Installation"  ## $2 exit status of above function/cmd
 
-apt install vim -y &>>$LOG_FILE
+apt install vimmmm -y &>>$LOG_FILE
 
 VALIDATE $? "VIM Installation"
 
