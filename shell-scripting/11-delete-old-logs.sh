@@ -2,10 +2,10 @@
 
 PATH=/root/devops-interview-prep/shell-scripting/logs
 
-DATE=$(date +%F)
+DATE=$(/usr/bin/date +%F)
 LOG_FILE="$DATE.log"
 
-INPUT=$(find /root/devops-interview-prep/shell-scripting/logs -name "*.log" -type f -mtime +14
+INPUT=$(/usr/bin/find /root/devops-interview-prep/shell-scripting/logs -name "*.log" -type f -mtime +14
 )
 
 while IFS= read line;
