@@ -169,4 +169,19 @@ IFS = internal field seperator
 crontab -e   ## to set the cron jobs
 */1 * * * * /root/devops-interview-prep/shell-scripting/11-delete-old-logs.sh  > /dev/null
 crontab -l  ## to list the cron jobs
+crontab -r ## to remove cron jobs
+
+## monitor the disk space and email if something wrong  ##
+1. you need to set some threshold > 70%
+2. how can you find disk space & get output 
+
+### to add ebs vol on ec2
+lsblk
+sudo file -s /dev/xvdb
+sudo lsblk -f
+sudo mkfs -t xfs /dev/xvdb
+sudo mkdir /data
+sudo mount /dev/xvdb /data
+
+
 
