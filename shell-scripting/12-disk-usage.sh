@@ -11,5 +11,4 @@ while IFS= read line;
 do 
     usage=$(echo $line | cut -d "%" -f1)
     echo "usage: $usage"
-    rm -rf $line
 done <<< "$DISK_USAGE"
