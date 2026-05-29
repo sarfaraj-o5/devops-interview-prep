@@ -8,7 +8,13 @@ LOG_FILE="$DATE.log"
 INPUT=$(/usr/bin/find /root/devops-interview-prep/shell-scripting/logs -name "*.log" -type f -mtime +14
 )
 
-while IFS= read line;
+# while IFS= read line;
+# do
+#     echo "Deleting log file: $line"
+# done <<< "$INPUT"
+
+while IFS= read -r line
 do
     echo "Deleting log file: $line"
+    rm -f "$line"
 done <<< "$INPUT"
