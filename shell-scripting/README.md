@@ -142,5 +142,26 @@ echo $USERS
 
 cat /etc/passwd | awk -F ":" '{print $1F}' | head -n 1  # it'll print 1colounm 1string
 
+#### return values in functions
+output of functions --> return values
+
 global var = nothing but outside of the function
+
+1. how to delete log files more than 2 weeks and schedule the script
+algorithm
+first which folder to remove
+.log
+more than 2 weeks --> find
+schedule
+
+touch 2026-19-05.log
+
+find /root/devops-interview-prep/shell-scripting/logs -name "*.log" -type f -mtime +14
+
+while command
+do
+    statements to be exec if command is true
+done <<< $input
+     input 
+IFS = internal field seperator
 
