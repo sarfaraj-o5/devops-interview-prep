@@ -10,6 +10,7 @@ INPUT=$(/usr/bin/find /root/devops-interview-prep/shell-scripting/logs -name "*.
 
 while IFS= read line;
 do
-    echo "Deleting log file: $line"
+    echo "Deleting log file: $line" &>>$LOG_FILE
+    rm -rf $line
 done <<< "$INPUT"
 

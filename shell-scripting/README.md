@@ -165,3 +165,8 @@ done <<< $input
      input 
 IFS = internal field seperator
 
+## CRONTAB ##
+crontab -e   ## to set the cron jobs
+*/1 * * * * /root/devops-interview-prep/shell-scripting/11-delete-old-logs.sh  > /dev/null
+crontab -l  ## to list the cron jobs
+
