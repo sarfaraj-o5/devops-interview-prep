@@ -175,6 +175,10 @@ crontab -r ## to remove cron jobs
 1. you need to set some threshold > 70%
 2. how can you find disk space & get output 
 
+percentage   partition   
+19%            /dev/xvda1
+
+
 ### to add ebs vol on ec2
 lsblk
 sudo file -s /dev/xvdb
@@ -182,6 +186,15 @@ sudo lsblk -f
 sudo mkfs -t xfs /dev/xvdb
 sudo mkdir /data
 sudo mount /dev/xvdb /data
+
+
+## cpu usage ##
+top -bn1 | awk '/Cpu/ { print $2 }'
+
+## memory usage ##
+(free -m | awk '/Mem/{print $3}')
+
+## disk, memory, cpu --> any of this or all
 
 
 

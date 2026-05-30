@@ -11,7 +11,7 @@ message=""
 while IFS= read line;
 do 
     usage=$(echo $line | cut -d "%" -f1)
-    partition=$(echo $DISK_USAGE | cut -d " " -f2)
+    partition=$(echo $line | cut -d " " -f2)
     echo "usage: $usage"
     echo "usage: $partition"
     if [ $usage -ge $DISK_THRESHOLD ]
