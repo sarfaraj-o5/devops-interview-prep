@@ -21,3 +21,6 @@ do
 done <<< "$DISK_USAGE"
 
 echo "message: $message"
+
+echo "$message" | mail -s "High Disk Usage" info@example.com
+##    msg body              Subject             email-addres  
