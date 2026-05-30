@@ -22,5 +22,5 @@ done <<< "$DISK_USAGE"
 
 echo "message: $message"
 
-echo "$message" | mail -s "High Disk Usage" info@example.com
+echo -e "$message" | mail -s "High Disk Usage" info@example.com  ## -e = enable backslash
 ##    msg body              Subject             email-addres  
