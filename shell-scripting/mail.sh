@@ -1,0 +1,7 @@
+#!/bin/bash
+
+TO=#1
+SUBJECT=$2
+BODY_CONTENT=$3
+NAME=$4
+AL

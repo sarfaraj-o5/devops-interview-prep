@@ -196,5 +196,21 @@ top -bn1 | awk '/Cpu/ { print $2 }'
 
 ## disk, memory, cpu --> any of this or all
 
+### sed --> streamline editor ##
+stream = running
+CRUD
+How can you enter a line of text in the file using sed
+
+sed -e '1i/this is some text' passwd  --> temporary showing in terminal
+    -e=temporary  1i=line insert          file
+
+sed -i 
+    -i=permanent
+sed -i '1d' abc.txt = to delete 1st line
+sed -i '1a Good morning' = a=append after 1st line
+sed -e 's/Good/Great/' 2026-05-29.log =  every line 1st occurance replace/update
+        s=substitute
+sed -e 's/Good/Great/g' 2026-05-29.log =  every line all occurance replace/update
+        s=substitute ; g=global
 
 
