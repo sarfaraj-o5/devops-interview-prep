@@ -12,6 +12,3 @@ final_content=$(sed -e "s/TEAM/$NAME/g" -e "s/BODY_CONTENT/$BODY_CONTENT/g" -e "
 echo "final_content: $final_content"
 
 echo -e "$final_content" | mail -s "$(echo -e "$SUBJECT\nContent-Type: text/html")" $TO
-
-
-# bash mail.sh abc@example.com "High Disk Usage" "$message" "DevOps Team"

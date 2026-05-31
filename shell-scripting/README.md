@@ -214,3 +214,10 @@ sed -e 's/Good/Great/g' 2026-05-29.log =  every line all occurance replace/updat
         s=substitute ; g=global
 
 
+# bash mail.sh abc@example.com "High Disk Usage" "$message" "DevOps Team"
+
+### docker-install.sh ##
+set -e # by default it'll check there is any error or not
+
+
+
