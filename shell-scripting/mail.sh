@@ -5,7 +5,7 @@ BODY_CONTENT=$(sed -e 's/[]\/$*.^[]/\\&/g' <<< $3)  ## escaping special chars
 echo "escaped content: $BODY_CONTENT"
 NAME=$4
 ALERT_TYPE=$2
-template="/home/centos/templates/template.html"
+template="/root/devops-interview-prep/shell-scripting/template/template.html"
 
 final_content=$(sed -e "s/TEAM/$NAME/g" -e "s/BODY_CONTENT/$BODY_CONTENT/g" -e "s/ALERT_TYPE/$ALERT_TYPE/g" "$template")
 
