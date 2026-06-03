@@ -219,5 +219,71 @@ sed -e 's/Good/Great/g' 2026-05-29.log =  every line all occurance replace/updat
 ### docker-install.sh ##
 set -e # by default it'll check there is any error or not
 
+yum install dhclient -y
+
+## 3- tier arch ##
+upgrade the version
+storage --> doc, xls, ppt files in local
+repair the software
+lot of memory --> slow down the laptop
+
+Web apps
+client --> server
+
+raw items = data
+username and passwd --> stored in Mysql db in row format
+
+steps
+MariaDB == MySQL
+App server = tomcat for java, install java
+student application
+
+Web server = nginx
+
+CRUD
+create student
+update
+view 
+delete
+
+sudo mysql < studentapp.sql = < it will take input from studentapp.sql
+
+if [ -z $TOMCAT_VERSION ] # -z = empty
+
+sed -i '$ i <Resource name="jdbc/...>' context.xml ## -i=permanent ,$ i = before last line insert this
+
+ip:8080/student/
+
+laptop --> proxy server --> internet = forward proxy = internet dont understand what is behind the proxy server
+
+user --> nginx(reverse proxy) --> any server == in reverse proxy user dont understand where the request is going
+
+location / {
+    proxy_pass https://127.0.0.1:8080 /;
+    proxy_set_header HOST $host;
+    proxy_set_header X-Real-IP $remote_addr;
+}
+
+sed -i '/location \/ {/,/}/d' /etc/nginx/nginx.conf
+ = to remove /d=delete
+
+{/,/} = content inside braces either 0 or many lines
+
+SELINUX
+sudo sestatus
+
+sudo yum install policycoreutils-python-utils
+
+sudo grep nginx /var/log/audit/audit.log | grep denied
+
+sudo audit2allow -a -M nginx_tomcat_connect
+
+sudo semodeule -i nginx_tomcat_connect.pp
+sudo systemctl restart nginx
+sudo systemctl restart tomcat
+
+curl git_url | sudo bash
+wget git_url 
+sudo sh student.sh 9.0.75
 
 
