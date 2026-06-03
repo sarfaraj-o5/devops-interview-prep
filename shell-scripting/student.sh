@@ -31,9 +31,10 @@ TOMCAT_TAR_FILE=$(echo $TOMCAT_URL | awk -F "/" '{print $NF}')
 #forming tomcat dir
 TOMCAT_DIR=$(echo $TOMCAT_TAR_FILE | sed -e 's/.tar.gz//g')
 #student application file
-STUDENT_WAR_FILE=https://raw.githubusercontent.com/techworldwithsiva/shell-scripting-01/master/application/student.war
+STUDENT_WAR_FILE=https://raw.githubusercontent.com/sarfaraj-o5/devops-interview-prep/raw/refs/heads/main/shell-scripting/application/student.war
+
 #MySQl Connector
-MYSQL_DRIVER=https://raw.githubusercontent.com/techworldwithsiva/shell-scripting-01/master/application/mysql-connector-5.1.18.jar
+MYSQL_DRIVER=https://raw.githubusercontent.com/sarfaraj-o5/devops-interview-prep/raw/refs/heads/main/shell-scripting/application/mysql-connector-5.1.18.jar
 
 if [ $USERID -ne 0 ]
 then
