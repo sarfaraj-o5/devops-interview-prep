@@ -25,9 +25,9 @@ fi
 #extracting tomcat major version
 TOMCAT_MAJOR_VERSION=$(echo $TOMCAT_VERSION | cut -d "." -f1)
 #forming download URL
-# TOMCAT_URL=https://dlcdn.apache.org/tomcat/tomcat-$TOMCAT_MAJOR_VERSION/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
+TOMCAT_URL=https://dlcdn.apache.org/tomcat/tomcat-$TOMCAT_MAJOR_VERSION/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
 
-TOMCAT_URL=https://downloads.apache.org/tomcat/tomcat-$TOMCAT_MAJOR_VERSION/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
+# TOMCAT_URL=https://downloads.apache.org/tomcat/tomcat-$TOMCAT_MAJOR_VERSION/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
 #forming tar file
 TOMCAT_TAR_FILE=$(echo $TOMCAT_URL | awk -F "/" '{print $NF}')
 #forming tomcat dir
