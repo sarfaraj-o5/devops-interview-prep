@@ -90,7 +90,7 @@ cd /opt/tomcat
 
 if [ -d $TOMCAT_DIR ]
 then
-    echo -e "$Y Tomcat alread exists $N"
+    echo -e "$Y Tomcat already exists $N"
 else
     wget $TOMCAT_URL &>>$LOGFILE
     VALIDATE $? "Downloading tomcat"
